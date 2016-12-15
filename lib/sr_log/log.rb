@@ -1,3 +1,8 @@
+require 'singleton'
+require 'logger'
+require 'date'
+require 'fileutils'
+
 module SrLog
   class Log
     include Singleton
@@ -10,16 +15,20 @@ module SrLog
 
     def log log_key, msg, opts = {}
       @logfiles ||= {}
-      log_month = Date.current.strftime '%Y.%m'
+      log_month = Date.today.strftime '%Y.%m'
 
       unless @logfiles.has_key?(log_key) && @logfiles[log_key][:log_month] == log_month
         filename = "#{log_month}_#{log_key.to_s}.log"
 
-        if opts.has_key?(:dir)
-          log_path = File.join opts[:dir], filename
+        log_path = if opts.has_key?(:dir)
           FileUtils.mkdir_p(opts[:dir]) unless File.directory?(opts[:dir])
+          File.join opts[:dir], filename
+        elsif defined?(Rails)
+          Rails.root.join 'log', filename
         else
-          log_path = Rails.root.join 'log', filename # TODO: remove undocumented dependency of Rails
+          folder_path = File.expand_path File.join('.', 'log')
+          FileUtils.mkdir(folder_path) unless File.directory?(folder_path)
+          File.join folder_path, filename
         end
 
         @logfiles[log_key] = {log: SrLogger.new(log_path), log_month: log_month}
