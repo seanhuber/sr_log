@@ -1,8 +1,6 @@
-# SrLog
+# sr_log
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sr_log`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+**sr_log** is a simple wrapper method around ruby's native `Logger` class. It allows you to write to multiple custom logfiles and serves the purpose of log rotation by prefixing the logfiles with a month stamp.
 
 ## Installation
 
@@ -22,20 +20,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To write to a logfile, call the global `sr_log` method.  For example:
 
-## Development
+```ruby
+sr_log :user_updates, "This is my message"
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+`sr_log` will create a `./log/2016_12_user_updates.log` file if one does not already exist (except that it will use current year/month for the prefix).  Then it will write the line "This is my message" to the logfile after a timestamp.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Optionally you can pass named arguments to the `sr_log` method:
 
-## Contributing
+Argument: `:dir`, type: `string`. Use `:dir` to set a custom path for where the logfile is saved.
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/sr_log.
+Argument: `:current_user`, type: `Object`. Use `:current_user` to specify that the message is being logged by a use.  This will add a `"Logged by user: #{current_user}"` line after the timestamp in the logfile.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
