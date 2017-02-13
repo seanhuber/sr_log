@@ -32,6 +32,8 @@ Optionally you can pass named arguments to the `sr_log` method:
 
 Argument: `:dir`, type: `string`. Use `:dir` to set a custom path for where the logfile is saved.
 
+Argument: `:single_spaced`, type: `boolean`. Use `:single_spaced` to avoid an extra new line between log entries.
+
 Argument: `:current_user`, type: `Object`. Use `:current_user` to specify that the message is being logged by a use.  This will add a `"Logged by user: #{current_user}"` line to the logfile before the message.
 
 

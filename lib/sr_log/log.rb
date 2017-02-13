@@ -7,12 +7,6 @@ module SrLog
   class Log
     include Singleton
 
-    class SrLogger < Logger
-      def format_message severity, timestamp, progname, msg
-        "\n#{msg}\n"
-      end
-    end
-
     def log log_key, msg, opts = {}
       @logfiles ||= {}
       log_month = Date.today.strftime '%Y.%m'
@@ -31,7 +25,11 @@ module SrLog
           File.join folder_path, filename
         end
 
-        @logfiles[log_key] = {log: SrLogger.new(log_path), log_month: log_month}
+        @logfiles[log_key] = {log: Logger.new(log_path), log_month: log_month}
+
+        @logfiles[log_key][:log].formatter = proc do |severity, timestamp, progname, msg|
+          opts[:single_spaced] ? "#{msg}\n" : "\n#{msg}\n"
+        end
       end
 
       msg = "Logged by user: #{opts[:current_user]}\n#{msg}" if opts.has_key?(:current_user)
