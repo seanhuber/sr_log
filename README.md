@@ -1,3 +1,7 @@
+[![Gem Version](https://badge.fury.io/rb/sr_log.svg)](https://badge.fury.io/rb/sr_log)
+[![Build Status](https://travis-ci.org/seanhuber/sr_log.svg?branch=master)](https://travis-ci.org/seanhuber/sr_log)
+[![Coverage Status](https://coveralls.io/repos/github/seanhuber/sr_log/badge.svg?branch=master)](https://coveralls.io/github/seanhuber/sr_log?branch=master)
+
 # sr_log
 
 **sr_log** is a simple wrapper method around ruby's native `Logger` class. It allows you to write to multiple custom logfiles and serves the purpose of log rotation by prefixing the logfiles with a month stamp.
